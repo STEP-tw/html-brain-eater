@@ -1,13 +1,14 @@
 const fs = require("fs");
 
 const main = function () {
-    let fileNames = fs.readdirSync("./githubAccInfos");
-    let usersHtml = fileNames.map(generateHtml);
+    const folderPath = process.argv[2];
+    let fileNames = fs.readdirSync(folderPath);
+    let usersHtml = fileNames.map(generateHtml.bind(null, folderPath));
     console.log(usersHtml.join("\n\n"));
 }
 
-const generateHtml = function (fileName) {
-    let userDetails = fs.readFileSync("./githubAccInfos/" + fileName);
+const generateHtml = function (folderPath, fileName) {
+    let userDetails = fs.readFileSync(folderPath + "/" + fileName);
     userDetails = JSON.parse(userDetails);
     const {
         login,
@@ -16,14 +17,15 @@ const generateHtml = function (fileName) {
         followers,
         following
     } = userDetails;
-
     let nameHtml = "<h2>" + fileName + "</h2>";
     let idHtml = "<p><b>UserId<b>:" + login + "</p>";
-    let imgHtml = "< img src = " + avatar_url + " > <br>";
-    let profileHtml = "< a href = " + html_url + "target = _blank > Go to profile < /a><br>";
-    let followersHtml = "<p>Followers:" + followers + "<br>";
-    let followingHtml = "Following: " + following + "</p><hr>"
-    let html = [nameHtml, idHtml, imgHtml, profileHtml, followersHtml, followingHtml].join("\n");
+    let imgHtml = "<img height=230 align=right src = " + avatar_url + " > ";
+    let profileHtml = "<a href = " + html_url + " target=_blank > Go to profile </a>";
+    let followersHtml = "<p>Followers:" + followers + "</p>";
+    let followingHtml = "<p>Following: " + following + "</p><br>"
+    let html = ["<div>", imgHtml,
+        nameHtml, idHtml, profileHtml, followersHtml, followingHtml, "</div>"
+    ].join("\n");
     return html;
 }
 main();
