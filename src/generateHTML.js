@@ -22,9 +22,9 @@ const generateHtml = function (folderPath, fileName) {
     let imgHtml = "<img height=230 align=right src = " + avatar_url + " > ";
     let profileHtml = "<a href = " + html_url + " target=_blank > Go to profile </a>";
     let followersHtml = "<p>Followers:" + followers + "</p>";
-    let followingHtml = "<p>Following: " + following + "</p><br>"
+    let followingHtml = "<p>Following: " + following + "</p>"
     let html = ["<div>", imgHtml,
-        nameHtml, idHtml, profileHtml, followersHtml, followingHtml, "</div>"
+        nameHtml, idHtml, followersHtml, followingHtml, profileHtml, "<br><br><br></div>"
     ].join("\n");
     return html;
 }
